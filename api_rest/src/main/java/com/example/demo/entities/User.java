@@ -29,7 +29,7 @@ public class User implements Serializable {
 	private Long id;
 	@Column
 	private String name;
-	@Column
+	@Column(nullable = false)
 	private String email;
 	@Column
 	private String password;

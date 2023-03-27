@@ -1,4 +1,4 @@
-package com.example.demo.exceptions.hadle;
+package com.example.demo.exceptions.hadler;
 
 
 
@@ -13,6 +13,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import com.example.demo.exceptions.ExpectionResponse;
+import com.example.demo.exceptions.NotFoundExpection;
 
 @RestController
 @ControllerAdvice
@@ -25,6 +26,16 @@ public class CustomResponseEntityExpectionHandler extends ResponseEntityExceptio
 				new Date(),
 				ex.getMessage(),
 				request.getDescription(false));
-		return new ResponseEntity<>(expectionResponse,HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<>(expectionResponse,HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	
+	@ExceptionHandler(NotFoundExpection.class)
+	public final ResponseEntity<ExpectionResponse> handleNotFoundExceptions(Exception ex,
+			WebRequest request){
+		ExpectionResponse expectionResponse = new ExpectionResponse(
+				new Date(),
+				ex.getMessage(),
+				request.getDescription(false));
+		return new ResponseEntity<>(expectionResponse,HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 }

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.example.demo.entities.User;
+import com.example.demo.exceptions.NotFoundExpection;
 import com.example.demo.repositories.UserRepository;
 
 @Service
@@ -28,7 +29,7 @@ public class UserService {
 	}
 	
 	public User findById(Long id) {
-		return this.repository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+		return this.repository.findById(id).orElseThrow(() -> new NotFoundExpection("User not found " + id));
 	}
 	
 	public User update(User user) {

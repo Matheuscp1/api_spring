@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -43,18 +44,20 @@ public class UserController{
 	
 	@PostMapping
 	public ResponseEntity<User>  create(@RequestBody(required = true) User user) {
+		if(user.getEmail() == null) throw  new ResponseStatusException(HttpStatus.BAD_REQUEST, "email required");
 		User newUser = this.service.create(user);
 		return ResponseEntity.status(HttpStatus.CREATED).body(newUser);
 	}
 	
-	@PutMapping
+	@PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	public User update(@RequestBody(required = true) User user) {
 		if(user.getId() == null) throw  new ResponseStatusException(HttpStatus.BAD_REQUEST, "Id required");
 		return this.service.update(user);
 	}
 	
 	@DeleteMapping(value = "/{id}")
-	public void delete(@PathVariable(value = "id") Long id) {
+	public ResponseEntity<Object> delete(@PathVariable(value = "id") Long id) {
 		this.service.delete(id);
+		return ResponseEntity.noContent().build();
 	}
 }
