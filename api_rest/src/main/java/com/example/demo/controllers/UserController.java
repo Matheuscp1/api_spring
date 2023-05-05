@@ -29,7 +29,7 @@ public class UserController{
 	
 	@Autowired
 	UserService service;
-	@GetMapping
+	@GetMapping(produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
 	public ResponseEntity<List<User>> findAll(){
 		User user = new User("Matheus", "matheus@gmail.com", "1234");
 		List<User> users = this.service.findAll();
@@ -42,14 +42,16 @@ public class UserController{
 		return ResponseEntity.ok().body(user);
 	}
 	
-	@PostMapping
+	@PostMapping(produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE},
+			consumes = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
 	public ResponseEntity<User>  create(@RequestBody(required = true) User user) {
 		if(user.getEmail() == null) throw  new ResponseStatusException(HttpStatus.BAD_REQUEST, "email required");
 		User newUser = this.service.create(user);
 		return ResponseEntity.status(HttpStatus.CREATED).body(newUser);
 	}
 	
-	@PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+	@PutMapping(produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE},
+			consumes = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
 	public User update(@RequestBody(required = true) User user) {
 		if(user.getId() == null) throw  new ResponseStatusException(HttpStatus.BAD_REQUEST, "Id required");
 		return this.service.update(user);
