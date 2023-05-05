@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.example.demo.entities.User;
@@ -33,6 +34,9 @@ public class UserService {
 	}
 	
 	public User update(User user) {
+		User findUser = this.repository.findById(user.getId()).orElseThrow(() -> new NotFoundExpection("User not found " + user.getId()));
+		if(user.getEmail() == null)
+		user.setEmail(findUser.getEmail());
 		return this.repository.save(user);
 	}
 	

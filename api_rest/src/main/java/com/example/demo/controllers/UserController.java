@@ -50,11 +50,14 @@ public class UserController{
 		return ResponseEntity.status(HttpStatus.CREATED).body(newUser);
 	}
 	
-	@PutMapping(produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE},
+	@PutMapping(value = "/{id}",
+			produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE},
 			consumes = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
-	public User update(@RequestBody(required = true) User user) {
-		if(user.getId() == null) throw  new ResponseStatusException(HttpStatus.BAD_REQUEST, "Id required");
-		return this.service.update(user);
+	public ResponseEntity<User> update(@RequestBody(required = true) User user, @PathVariable(value = "id") Long id) {
+		//if(user.getId() == null) throw  new ResponseStatusException(HttpStatus.BAD_REQUEST, "Id required");
+		user.setId(id);
+		this.service.update(user);
+		return ResponseEntity.status(HttpStatus.OK).body(user);
 	}
 	
 	@DeleteMapping(value = "/{id}")

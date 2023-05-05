@@ -69,6 +69,10 @@ public class User implements Serializable {
 		return id;
 	}
 
+	public void setId(Long id) {
+		this.id = id;
+	}
+	
 	@Override
 	public int hashCode() {
 		return Objects.hash(email, name);
