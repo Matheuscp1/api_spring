@@ -36,6 +36,6 @@ public class CustomResponseEntityExpectionHandler extends ResponseEntityExceptio
 				new Date(),
 				ex.getMessage(),
 				request.getDescription(false));
-		return new ResponseEntity<>(expectionResponse,HttpStatus.INTERNAL_SERVER_ERROR);
+		return new ResponseEntity<>(expectionResponse,HttpStatus.NOT_FOUND);
 	}
 }
