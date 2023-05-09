@@ -8,8 +8,10 @@ import org.springframework.hateoas.RepresentationModel;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -19,7 +21,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "users")
-
+@Schema
 public class User extends 	RepresentationModel<User> implements Serializable {
 	
 	public User() {
@@ -36,11 +38,14 @@ public class User extends 	RepresentationModel<User> implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	@Column
+	@Schema(description = "name user", type = "string", example = "Jonh")
 	private String name;
 	@Column(nullable = false)
+	@Schema(description = "email user", type = "string", example = "Jonh@teste.com")
 	private String email;
 	@Column
-	@JsonIgnore()
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+	@Schema(description = "password user", type = "string", example = "1234", hidden = false)
 	private String password;
 
 	public String getName() {

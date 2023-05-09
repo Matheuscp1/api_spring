@@ -26,6 +26,7 @@ public class UserService {
 	}
 	
 	public User create(User user) {
+		if(user.getEmail().trim() == "")  throw  new ResponseStatusException(HttpStatus.BAD_REQUEST, "email cannot be empty");
 		return this.repository.save(user);
 	}
 	
